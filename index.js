@@ -40,4 +40,4 @@ app.get('/test-api',(req,resp)=>{
 })
 
 //------------
-app.use('/api/v1/user',userRoute);
+app.use('/api/v1/users',userRoute);
