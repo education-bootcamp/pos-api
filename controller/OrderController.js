@@ -3,6 +3,7 @@ const OrderSchema = require("../model/OrderSchema");
 
 
 
+
 const create=(req,resp)=>{
     const order = new OrderSchema({
         date:req.body.date,
@@ -40,7 +41,15 @@ const update=async (req,resp)=>{
         return resp.status(500).json({'message':'internal server error'});
     }
 }
-const deleteById=(req,resp)=>{}
+const deleteById=async (req,resp)=>{
+    const deleteData = await OrderSchema.findByIdAndDelete({'_id':req.params.id});
+
+    if(deleteData){
+        return  resp.status(204).json({'message':'deleted'});
+    }else{
+        return resp.status(500).json({'message':'internal server error'});
+    }
+}
 const findAll=(req,resp)=>{}
 
 module.exports={

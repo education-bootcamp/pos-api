@@ -35,7 +35,15 @@ const update= async (req,resp)=>{
         return resp.status(500).json({'message':'internal server error'});
     }
 }
-const deleteById=(req,resp)=>{}
+const deleteById=async (req,resp)=>{
+    const deleteData = await CustomerSchema.findByIdAndDelete({'_id':req.params.id});
+
+    if(deleteData){
+        return  resp.status(204).json({'message':'deleted'});
+    }else{
+        return resp.status(500).json({'message':'internal server error'});
+    }
+}
 const findAll=(req,resp)=>{}
 
 module.exports={
