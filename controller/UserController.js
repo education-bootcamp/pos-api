@@ -52,7 +52,6 @@ const register = (req,resp) => {
 
 
 }
-
 const login = (req,resp) => {
     userSchema.findOne({'email':req.body.email}).then(selectedUser=>{
         if (selectedUser!==null){
