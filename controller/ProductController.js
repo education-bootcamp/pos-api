@@ -4,6 +4,7 @@ const ProductSchema= require('../model/ProductSchema');
 
 
 
+
 const create=(req,resp)=>{
     const product = new ProductSchema({
         name:req.body.name,
@@ -52,7 +53,28 @@ const deleteById=async (req,resp)=>{
         return resp.status(500).json({'message':'internal server error'});
     }
 }
-const findAll=(req,resp)=>{}
+const findAll=(req,resp)=>{
+    try{
+        const {searchText, page=1, size=10}=req.query;
+
+        const pageNumber=parseInt(page);
+        const pageSize=parseInt(size);
+
+        const query ={};
+        if(searchText){
+            query.$text={$search:searchText}
+        }
+
+        const skip= (pageNumber-1) * pageSize;
+
+        const data =  ProductSchema.find(query)
+            .limit(pageSize)
+            .skip(skip);
+        return resp.status(200).json(data);
+    }catch (error){
+        return resp.status(500).json({'message':'internal server error'});
+    }
+}
 
 module.exports={
     create,findById,update,deleteById,findAll
