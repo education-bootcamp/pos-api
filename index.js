@@ -8,7 +8,7 @@
 * jsonwebtoken (npm i jsonwebtoken)
 *
 * */
-
+const cors = require('cors')
 const express= require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -16,7 +16,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const port = process.env.SERVER_PORT | 3000;
 const app = express();
-
+app.use(cors())
 //-----------------------
 const userRoute = require('./routes/UserRoute');
 const customerRoute = require('./routes/CustomerRoute');
