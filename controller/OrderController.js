@@ -1,5 +1,6 @@
 
 const OrderSchema = require("../model/OrderSchema");
+const CustomerSchema = require("../model/CustomerSchema");
 
 
 
@@ -66,15 +67,28 @@ const findAll=(req,resp)=>{
 
         const skip= (pageNumber-1) * pageSize;
 
-        const data =  OrderSchema.find(query)
+        OrderSchema.find(query)
             .limit(pageSize)
-            .skip(skip);
-        return resp.status(200).json(data);
+            .skip(skip).then(data=>{
+                return resp.status(200).json(data);
+            });
+
+    }catch (error){
+        return resp.status(500).json({'message':'internal server error'});
+    }
+}
+
+const findAllCount=(req,resp)=>{
+    try{
+        CustomerSchema.countDocuments().then(data=>{
+            return resp.status(200).json(data);
+        })
+
     }catch (error){
         return resp.status(500).json({'message':'internal server error'});
     }
 }
 
 module.exports={
-    create,findById,update,deleteById,findAll
+    create,findById,update,deleteById,findAll,findAllCount
 }
