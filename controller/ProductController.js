@@ -22,7 +22,7 @@ const create=(req,resp)=>{
 const findById=(req,resp)=>{
     ProductSchema.findOne({'_id':req.params.id}).then(selectedObj=>{
         if(selectedObj!=null){
-            return  resp.status(200).json({'data':selectedObj});
+            return  resp.status(200).json(selectedObj);
         }
         return resp.status(404).json({'message':'customer not found!'});
     });

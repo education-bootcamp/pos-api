@@ -78,9 +78,24 @@ const findAll=(req,resp)=>{
     }
 }
 
+const findAllIncome=async (req,resp)=>{
+    try{
+        const result = await OrderSchema.aggregate([
+            {$group:{
+                _id:null,
+                    totalCostSum:{$sum:'$totalCost'}
+                }}
+        ]);
+        console.log(result);
+        const totalCostSum= result.length>0?result[0].totalCostSum:0;
+        resp.json({totalCostSum});
+    }catch (error){
+        return resp.status(500).json({'message':'internal server error'});
+    }
+}
 const findAllCount=(req,resp)=>{
     try{
-        CustomerSchema.countDocuments().then(data=>{
+        OrderSchema.countDocuments().then(data=>{
             return resp.status(200).json(data);
         })
 
@@ -90,5 +105,5 @@ const findAllCount=(req,resp)=>{
 }
 
 module.exports={
-    create,findById,update,deleteById,findAll,findAllCount
+    create,findById,update,deleteById,findAll,findAllCount,findAllIncome
 }
