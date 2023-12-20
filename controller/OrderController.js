@@ -2,11 +2,6 @@
 const OrderSchema = require("../model/OrderSchema");
 const CustomerSchema = require("../model/CustomerSchema");
 
-
-
-
-
-
 const create=(req,resp)=>{
     const order = new OrderSchema({
         date:req.body.date,
@@ -14,6 +9,7 @@ const create=(req,resp)=>{
         totalCost:req.body.totalCost,
         products:req.body.products
     });
+
     order.save().then(response=>{
         resp.status(201).json({'message':'order saved!'});
     }).catch(error=>{
